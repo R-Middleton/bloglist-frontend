@@ -34,7 +34,7 @@ const App = () => {
     }
   }
 
-  return (
+  const loginForm = () => (
     <div>
       <form onSubmit={handleLogin}>
         <div>
@@ -61,10 +61,22 @@ const App = () => {
         </div>
         <button type='submit'>login</button>
       </form>
-      <h2>blogs</h2>
+    </div>
+  )
+
+  const blogForm = () => (
+    <div>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
+    </div>
+  )
+
+  return (
+    <div>
+      <h1>Blogs</h1>
+      {user === null && loginForm()}
+      {user !== null && blogForm()}
     </div>
   )
 }
