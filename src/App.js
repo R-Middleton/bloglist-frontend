@@ -1,9 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Blogs from './components/Blogs'
 import LoginForm from './components/Login'
+import BlogService from './services/blogs'
 
 const App = () => {
   const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      BlogService.setToken(user.token)
+    }
+  }, [])
 
   return (
     <div>
