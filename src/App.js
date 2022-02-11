@@ -9,11 +9,23 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
+      console.log('loggedUserJSON', loggedUserJSON)
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       BlogService.setToken(user.token)
     }
   }, [])
+
+  const handleLogout = async (event) => {
+    console.log('logout user', user)
+    try {
+      window.localStorage.removeItem('loggedBlogappUser')
+      setUser(null)
+      BlogService.setToken('null')
+    } catch (exception) {
+      console.log('exception', exception)
+    }
+  }
 
   return (
     <div>
@@ -25,6 +37,7 @@ const App = () => {
       ) : (
         <div>
           <p>{user.name} logged in</p>
+          <button onClick={handleLogout}>logout</button>
           <Blogs />
         </div>
       )}
