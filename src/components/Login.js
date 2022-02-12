@@ -17,7 +17,6 @@ const LoginForm = ({ setUser }) => {
         password,
       })
 
-      console.log('user', user)
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
