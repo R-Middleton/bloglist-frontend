@@ -2,8 +2,7 @@ import Blog from './Blog'
 import React, { useState, useEffect } from 'react'
 import blogService from '../services/blogs'
 
-const Blogs = () => {
-  const [blogs, setBlogs] = useState([])
+const Blogs = ({ blogs, setBlogs }) => {
   const isCancelled = React.useRef(false)
 
   useEffect(() => {

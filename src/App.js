@@ -6,6 +6,7 @@ import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [user, setUser] = useState(null)
+  const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -15,6 +16,10 @@ const App = () => {
       BlogService.setToken(user.token)
     }
   }, [])
+
+  const addBlog = (newBlog) => {
+    BlogService.create(newBlog).then(setBlogs(blogs.concat(newBlog)))
+  }
 
   const handleLogout = async (event) => {
     console.log('logout user', user)
@@ -38,8 +43,8 @@ const App = () => {
         <div>
           <p>{user.name} logged in</p>
           <button onClick={handleLogout}>logout</button>
-          <BlogForm />
-          <Blogs />
+          <BlogForm createBlog={addBlog} />
+          <Blogs blogs={blogs} setBlogs={setBlogs} />
         </div>
       )}
     </div>

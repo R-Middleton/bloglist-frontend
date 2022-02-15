@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import BlogService from '../services/blogs'
 
-const BlogForm = () => {
+const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -15,7 +14,7 @@ const BlogForm = () => {
       url: url,
     }
 
-    BlogService.create(newBlog)
+    createBlog(newBlog)
 
     setTitle('')
     setAuthor('')
