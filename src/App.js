@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blogs from './components/Blogs'
 import LoginForm from './components/Login'
 import BlogService from './services/blogs'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -18,6 +21,7 @@ const App = () => {
   }, [])
 
   const addBlog = (newBlog) => {
+    blogFormRef.current.toggleVisibility()
     BlogService.create(newBlog).then(setBlogs(blogs.concat(newBlog)))
   }
 
@@ -37,13 +41,17 @@ const App = () => {
       <h1>Blogs</h1>
       {user === null ? (
         <div>
-          <LoginForm setUser={setUser} />
+          <Togglable buttonLabel='login'>
+            <LoginForm setUser={setUser} />
+          </Togglable>
         </div>
       ) : (
         <div>
           <p>{user.name} logged in</p>
           <button onClick={handleLogout}>logout</button>
-          <BlogForm createBlog={addBlog} />
+          <Togglable buttonLabel='add blog' ref={blogFormRef}>
+            <BlogForm createBlog={addBlog} />
+          </Togglable>
           <Blogs blogs={blogs} setBlogs={setBlogs} />
         </div>
       )}
